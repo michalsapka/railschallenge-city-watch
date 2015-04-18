@@ -7,10 +7,12 @@
 #  name           :string
 #  capacity       :integer
 #  emergency_code :string
-#  on_duty        :boolean
+#  on_duty        :boolean          default(FALSE)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  slug           :string
 #
+
 require 'test_helper'
 
 class ResponderTest < ActiveSupport::TestCase
