@@ -15,7 +15,6 @@
 class Responder < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
 
-
   validates :capacity, presence: true, inclusion: { in: 1..5 }
   validates :type, presence: true
   validates :name, presence: true, uniqueness: true
@@ -30,6 +29,8 @@ class Responder < ActiveRecord::Base
       on_duty: on_duty
       }
   end
+
+  private
 
   def assign_slug
     self.slug = self.name.parameterize
