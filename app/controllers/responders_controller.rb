@@ -10,7 +10,7 @@ class RespondersController < ApplicationController
     if @responder
       render json: @responder
     else
-      render json: {message: '404 not found'}, status: 404
+      render json: {message: 'page not found'}, status: 404
     end
   end
 

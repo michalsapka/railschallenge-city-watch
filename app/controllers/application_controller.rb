@@ -7,4 +7,10 @@ class ApplicationController < ActionController::Base
       message: "found unpermitted #{'parameter'.pluralize(err.params.count)}: #{ err.params.to_sentence }"
     }, status: 422
   end
+
+  def action_not_found
+    render json: {
+      message: "page not found"
+    }, status: 404
+  end
 end
