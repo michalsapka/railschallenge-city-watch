@@ -1,9 +1,12 @@
 class RespondersController < ApplicationController
   before_action :find_responder, only: [:update, :show]
-  before_action :find_responders, only: [:index]
 
   def index
-    render json: @responders
+    if params[:show] && params[:show] == 'capacity'
+      render json: {capacity: Responder.capacity}
+    else
+      @responders = Responder.all
+    end
   end
 
   def show
@@ -43,12 +46,4 @@ class RespondersController < ApplicationController
     @responder = Responder.find_by_slug(params[:id].parameterize)
   end
 
-  # Finds all responders or avalible responders for ?show=capacity
-  def find_responders
-    if params[:show] == "capacity"
-      @responders = Responder.capacity
-    else
-      @responders = Responder.all
-    end
-  end
 end

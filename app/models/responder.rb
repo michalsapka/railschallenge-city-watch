@@ -22,14 +22,25 @@ class Responder < ActiveRecord::Base
   before_save :assign_slug
 
   def self.capacity
-    all.group_by(&:type).map do |r,v|
-      eval("{#{r}: v.map(&:capacity)}")
+    responders = all.group_by(&:type).flat_map do |rsp|
+      total = izolate_responders rsp[1] { |h| true }
+      avalible = izolate_responders rsp[1] { |h| h[:emergency_code] == nil }
+      on_duty = izolate_responders rsp[1] { |h| h[:on_duty] == true }
+      avalible_and_on_duty = izolate_responders rsp[1] do |h|
+        h[:on_duty] == true && !h[:emergency_code]
+      end
+      [rsp[0].to_sym, [total, avalible, on_duty, avalible_and_on_duty]]
     end
+    Hash[*responders]
+  end
 
-    # .group_by(&:type).map do |r,v|
-    # p r
-    # p v
-    # end
+  # Izolates passed responders based on izolation
+  # responders - array of responders
+  # &izolation - block used for selector
+  #
+  # returns sum of capacity
+  def self.izolate_responders(responders, &izolation)
+    responders.select { |r| izolation.call(r) }.map { |h| h[:capacity] }.sum || 0
   end
 
   private
@@ -38,3 +49,5 @@ class Responder < ActiveRecord::Base
     self.slug = self.name.parameterize
   end
 end
+
+# all avalible on-duty aval+on-d
