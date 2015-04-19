@@ -21,14 +21,15 @@ class Responder < ActiveRecord::Base
 
   before_save :assign_slug
 
-  def to_json
-    super(only:{
-            emergency_code: emergency_code,
-            type: type,
-            name: name,
-            capacity: capacity,
-            on_duty: on_duty
-    })
+  def self.capacity
+    all.group_by(&:type).map do |r,v|
+      eval("{#{r}: v.map(&:capacity)}")
+    end
+
+    # .group_by(&:type).map do |r,v|
+    # p r
+    # p v
+    # end
   end
 
   private
