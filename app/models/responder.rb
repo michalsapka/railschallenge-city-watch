@@ -21,6 +21,7 @@ class Responder < ActiveRecord::Base
 
   before_save :assign_slug
 
+
   def self.capacity
     responders = all.group_by(&:type).flat_map do |rsp|
       total = izolate_responders rsp[1] { |h| true }

@@ -5,7 +5,7 @@ class RespondersController < ApplicationController
     if params[:show] && params[:show] == 'capacity'
       render json: {capacity: Responder.capacity}
     else
-      @responders = Responder.all
+      render json: Responder.all
     end
   end
 
