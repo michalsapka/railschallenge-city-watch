@@ -22,12 +22,13 @@ class Responder < ActiveRecord::Base
   before_save :assign_slug
 
   def to_json
-    { emergency_code: emergency_code,
-      type: type,
-      name: name,
-      capacity: capacity,
-      on_duty: on_duty
-      }
+    super(only:{
+            emergency_code: emergency_code,
+            type: type,
+            name: name,
+            capacity: capacity,
+            on_duty: on_duty
+    })
   end
 
   private

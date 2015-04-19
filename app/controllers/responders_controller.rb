@@ -1,6 +1,10 @@
 class RespondersController < ApplicationController
   before_action :find_responder, only: [:update, :show]
 
+  def index
+    render json: {responders: Responder.all }
+  end
+
   def show
     if @responder
       render json: {responder: @responder.to_json }
