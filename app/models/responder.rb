@@ -21,7 +21,7 @@ class Responder < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   scope :next_avalible_for, -> (emergency_type, capacity)  do
-    where(on_duty: true).where(type: emergency_type).where("capacity <= ?", capacity).
+    where(on_duty: true).where(emergency_code: nil).where(type: emergency_type).where("capacity <= ?", capacity).
       order("capacity DESC").limit(1)
   end
 
@@ -52,7 +52,7 @@ class Responder < ActiveRecord::Base
   end
 
   def dispatch_to emergency
-    update(on_duty: false, emergency: emergency)
+    update(emergency_code: emergency.code, emergency: emergency)
   end
 
   private
