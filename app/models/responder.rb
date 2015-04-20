@@ -24,6 +24,7 @@ class Responder < ActiveRecord::Base
 
   belongs_to :emergency
 
+  # Sends Reponder to an emergency
   def dispatch_to(emergency)
     update(emergency_code: emergency.code, emergency: emergency)
   end
@@ -32,33 +33,21 @@ class Responder < ActiveRecord::Base
     update(emergency_code: nil, emergency: nil)
   end
 
+  # Returns the next avalible Responder for emergency_type that has the closest capacity to the required capacity
   def self.next_avalible_for(emergency_type, capacity)
-    where(on_duty: true).where(emergency_code: nil).where(type: emergency_type)
-    .order("abs(#{capacity}-capacity)").limit(1)
+    where(on_duty: true, emergency_code: nil, type: emergency_type).order("abs(#{capacity}-capacity)").limit(1)
   end
 
-  def self.capacity
-    responders = all.group_by(&:type).flat_map do |rsp|
-      parts = {
-        total: izolate_responders(rsp[1]) { true },
-        avalible: izolate_responders(rsp[1]) { |h| h[:emergency_code].nil? },
-        on_duty: izolate_responders(rsp[1]) { |h| h[:on_duty] == true },
-        avalible_and_on_duty: izolate_responders(rsp[1]) do |h|
-          h[:on_duty] == true && !h[:emergency_code]
-        end
-      }
-      [rsp[0].to_sym, [parts[:total], parts[:avalible], parts[:on_duty], parts[:avalible_and_on_duty]]]
-    end
-    Hash[*responders]
-  end
-
-  # Izolates passed responders based on izolation
-  # responders - array of responders
-  # &izolation - block used for selector
+  # Returns an Hash of sums of capacity for responders
   #
-  # returns sum of capacity
-  def self.izolate_responders(responders, &izolation)
-    responders.select { |r| izolation.call(r) }.map { |h| h[:capacity] }.sum || 0
+  # key: kind of Emergency
+  # total: sum of capacity from all responders
+  # avalible: sum of capacity of responders that are avalible (not assigned to any emergency)
+  # on_duty: sum of capacity of responders that are on duty
+  # avalible_and_on_duty: sum of capacity of respoders that are both avalible and on duty
+  def self.capacity
+    counter = ResponderCapacityCounter.new(all)
+    counter.counter
   end
 
   private

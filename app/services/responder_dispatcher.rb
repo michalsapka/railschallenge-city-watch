@@ -14,6 +14,8 @@ class ResponderDispatcher
     emergency.update(unresolved: count_unresolved)
   end
 
+  private
+
   def dispatch_for(emergency_type)
     responder = Responder.next_avalible_for(emergency_type.capitalize, @severity[emergency_type]).first
     return unless responder
