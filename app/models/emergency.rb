@@ -16,12 +16,13 @@
 
 class Emergency < ActiveRecord::Base
   validates :code, presence: true, uniqueness: true
-  validates :medical_severity, presence: true, numericality: { :greater_than_or_equal_to => 0 }
-  validates :fire_severity, presence: true, numericality: { :greater_than_or_equal_to => 0 }
-  validates :police_severity, presence: true, numericality: { :greater_than_or_equal_to => 0 }
+  validates :medical_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :fire_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :police_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   before_save :assign_slug
   after_create { ResponderDispatcher.new(self) }
+  before_update :call_off_responders, if: :resolved?
 
   has_many :responders
 
@@ -29,10 +30,17 @@ class Emergency < ActiveRecord::Base
     where(unresolved: 0).count
   end
 
-
   private
 
   def assign_slug
     self.slug = self.code.parameterize
+  end
+
+  def call_off_responders
+    self.responders.each { |r| r.return_to_base }
+  end
+
+  def resolved?
+    !resolved_at.nil?
   end
 end

@@ -21,11 +21,12 @@ class Responder < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   scope :next_avalible_for, -> (emergency_type, capacity)  do
-    where(on_duty: true).where(emergency_code: nil).where(type: emergency_type).where("capacity <= ?", capacity).
-      order("capacity DESC").limit(1)
+    where(on_duty: true).where(emergency_code: nil).where(type: emergency_type).
+      order("abs(#{capacity}-capacity)").limit(1)
   end
 
   before_create :assign_slug
+
 
   belongs_to :emergency
 
@@ -53,6 +54,10 @@ class Responder < ActiveRecord::Base
 
   def dispatch_to emergency
     update(emergency_code: emergency.code, emergency: emergency)
+  end
+
+  def return_to_base
+    self.update(emergency_code: nil, emergency: nil)
   end
 
   private

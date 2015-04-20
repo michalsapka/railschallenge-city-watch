@@ -1,6 +1,6 @@
 # Sends Responders to Emergency based on Severity
 class ResponderDispatcher
-  def initialize emergency
+  def initialize(emergency)
     @emergency = emergency
     @severity = {
       police: emergency.police_severity,
@@ -14,7 +14,7 @@ class ResponderDispatcher
     emergency.update(unresolved: count_unresolved)
   end
 
-  def dispatch_for emergency_type
+  def dispatch_for(emergency_type)
     responder = Responder.next_avalible_for(emergency_type.capitalize, @severity[emergency_type]).first
     return unless responder
     responder.dispatch_to @emergency
