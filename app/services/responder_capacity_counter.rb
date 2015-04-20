@@ -13,6 +13,7 @@ class ResponderCapacityCounter
     end
   end
 
+  # Returns ready Hash
   def counter
     Hash[*@responders]
   end
