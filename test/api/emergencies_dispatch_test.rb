@@ -54,7 +54,6 @@ class EmergenciesDispatchTest < ActionDispatch::IntegrationTest
   test 'POST /emergencies/ will dispatch just enough resources for an emergency' do
     post '/emergencies/', emergency: { code: 'E-00000001', fire_severity: 3, police_severity: 12, medical_severity: 1 }
     json_response = JSON.parse(body)
-
     assert_equal(['F-103', 'M-101', 'P-103', 'P-104', 'P-105'], json_response['emergency']['responders'].sort)
     assert(json_response['emergency']['full_response'])
   end

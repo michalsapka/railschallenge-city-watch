@@ -11,6 +11,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  slug             :string
+#  unresolved       :integer
 #
 
 class Emergency < ActiveRecord::Base
@@ -20,6 +21,14 @@ class Emergency < ActiveRecord::Base
   validates :police_severity, presence: true, numericality: { :greater_than_or_equal_to => 0 }
 
   before_save :assign_slug
+  after_create { ResponderDispatcher.new(self) }
+
+  has_many :responders
+
+  def self.count_resolved
+    where(unresolved: 0).count
+  end
+
 
   private
 

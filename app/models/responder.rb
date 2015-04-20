@@ -11,6 +11,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  slug           :string
+#  emergency_id   :integer
 #
 class Responder < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
@@ -19,8 +20,14 @@ class Responder < ActiveRecord::Base
   validates :type, presence: true
   validates :name, presence: true, uniqueness: true
 
-  before_save :assign_slug
+  scope :next_avalible_for, -> (emergency_type, capacity)  do
+    where(on_duty: true).where(type: emergency_type).where("capacity <= ?", capacity).
+      order("capacity DESC").limit(1)
+  end
 
+  before_create :assign_slug
+
+  belongs_to :emergency
 
   def self.capacity
     responders = all.group_by(&:type).flat_map do |rsp|
@@ -44,11 +51,13 @@ class Responder < ActiveRecord::Base
     responders.select { |r| izolation.call(r) }.map { |h| h[:capacity] }.sum || 0
   end
 
+  def dispatch_to emergency
+    update(on_duty: false, emergency: emergency)
+  end
+
   private
 
   def assign_slug
     self.slug = self.name.parameterize
   end
 end
-
-# all avalible on-duty aval+on-d

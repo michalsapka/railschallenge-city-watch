@@ -11,6 +11,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  slug           :string
+#  emergency_id   :integer
 #
 
 class ResponderSerializer < ActiveModel::Serializer

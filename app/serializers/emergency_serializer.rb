@@ -11,8 +11,15 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  slug             :string
+#  unresolved       :integer
 #
 
 class EmergencySerializer < ActiveModel::Serializer
-  attributes :code, :fire_severity, :medical_severity, :police_severity, :resolved_at
+  attributes :code, :fire_severity, :medical_severity, :police_severity, :resolved_at, :responders
+
+  def responders
+    object.responders.map(&:name)
+  end
+
+
 end

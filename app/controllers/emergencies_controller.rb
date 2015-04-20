@@ -1,8 +1,11 @@
 class EmergenciesController < ApplicationController
 
   before_action :find_emergency, only: [ :update, :show ]
+
   def index
-    render json: Emergency.all
+    render json: Emergency.all,
+      full_responses: [Emergency.count_resolved, Emergency.count],
+      meta_key: :full_responses
   end
 
   def show
