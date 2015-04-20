@@ -9,8 +9,6 @@ class ApplicationController < ActionController::Base
   end
 
   def action_not_found
-    render json: {
-      message: "page not found"
-    }, status: 404
+    render json: { message: 'page not found' }, status: 404
   end
 end

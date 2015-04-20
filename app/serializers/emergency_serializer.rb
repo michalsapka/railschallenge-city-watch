@@ -24,5 +24,4 @@ class EmergencySerializer < ActiveModel::Serializer
   def full_response
     object.unresolved == 0
   end
-
 end

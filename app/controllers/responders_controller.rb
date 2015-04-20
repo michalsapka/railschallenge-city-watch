@@ -3,7 +3,7 @@ class RespondersController < ApplicationController
 
   def index
     if params[:show] && params[:show] == 'capacity'
-      render json: {capacity: Responder.capacity}
+      render json: { capacity: Responder.capacity }
     else
       render json: Responder.all
     end
@@ -13,7 +13,7 @@ class RespondersController < ApplicationController
     if @responder
       render json: @responder
     else
-      render json: {message: 'page not found'}, status: 404
+      render json: { message: 'page not found' }, status: 404
     end
   end
 
@@ -27,9 +27,7 @@ class RespondersController < ApplicationController
   end
 
   def update
-    if @responder.update(update_responder_params)
-      render json:  @responder
-    end
+    render json:  @responder if @responder.update(update_responder_params)
   end
 
   private
@@ -45,5 +43,4 @@ class RespondersController < ApplicationController
   def find_responder
     @responder = Responder.find_by_slug(params[:id].parameterize)
   end
-
 end

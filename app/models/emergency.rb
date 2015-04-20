@@ -33,11 +33,11 @@ class Emergency < ActiveRecord::Base
   private
 
   def assign_slug
-    self.slug = self.code.parameterize
+    self.slug = code.parameterize
   end
 
   def call_off_responders
-    self.responders.each { |r| r.return_to_base }
+    responders.each(&:return_to_base)
   end
 
   def resolved?

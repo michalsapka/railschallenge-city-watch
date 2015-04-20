@@ -1,18 +1,19 @@
 class EmergenciesController < ApplicationController
-
-  before_action :find_emergency, only: [ :update, :show ]
+  before_action :find_emergency, only: [:update, :show]
 
   def index
-    render json: Emergency.all,
+    render(
+      json: Emergency.all,
       full_responses: [Emergency.count_resolved, Emergency.count],
       meta_key: :full_responses
+    )
   end
 
   def show
     if @emergency
       render json: @emergency
     else
-      render json: {message: 'page not found'}, status: 404
+      render json: { message: 'page not found' }, status: 404
     end
   end
 
@@ -44,6 +45,6 @@ class EmergenciesController < ApplicationController
   end
 
   def find_emergency
-    @emergency= Emergency.find_by_slug(params[:id].parameterize)
+    @emergency = Emergency.find_by_slug(params[:id].parameterize)
   end
 end
