@@ -1,4 +1,6 @@
 class Emergency < ActiveRecord::Base
+  attr_accessor :responders_called_off
+
   validates :code, presence: true, uniqueness: true
   validates :medical_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :fire_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
@@ -21,10 +23,12 @@ class Emergency < ActiveRecord::Base
   end
 
   def call_off_responders
-    responders.each(&:return_to_base)
+    responders = []
+    self.responders_called_off = true
+    save!
   end
 
   def resolved?
-    !resolved_at.nil?
+    !resolved_at.nil? && responders_called_off
   end
 end

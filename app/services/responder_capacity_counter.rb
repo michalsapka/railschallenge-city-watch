@@ -29,7 +29,7 @@ class ResponderCapacityCounter
   def get_parts_for_capacity(rsp)
     {
       total: count_isolated_responders(rsp) { true },
-      avalible: count_isolated_responders(rsp) { |h| h[:emergency_code].nil? },
+      avalible: count_isolated_responders(rsp) { |h| h[:emergency].nil? },
       on_duty: count_isolated_responders(rsp) { |h| h[:on_duty] == true },
       avalible_and_on_duty: count_isolated_responders(rsp) do |h|
         h[:on_duty] == true && !h[:emergency_code]
