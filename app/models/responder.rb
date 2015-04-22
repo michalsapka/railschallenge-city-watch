@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: responders
-#
-#  id             :integer          not null, primary key
-#  type           :string
-#  name           :string
-#  capacity       :integer
-#  emergency_code :string
-#  on_duty        :boolean          default(FALSE)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  slug           :string
-#  emergency_id   :integer
-#
 class Responder < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
 
