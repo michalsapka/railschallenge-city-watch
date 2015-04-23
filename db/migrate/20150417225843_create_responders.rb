@@ -1,9 +1,9 @@
 class CreateResponders < ActiveRecord::Migration
   def change
     create_table :responders do |t|
-      t.string :type
-      t.string :name
-      t.integer :capacity
+      t.string :type, null: false
+      t.string :name, null: false
+      t.integer :capacity, null: false, unique: true
       t.string :emergency_code
       t.boolean :on_duty
 
