@@ -11,7 +11,7 @@ class Responder < ActiveRecord::Base
 
   # Sends Reponder to an emergency
   def dispatch_to(emergency)
-    update(emergency_code: emergency.code, emergency: emergency)
+    update(emergency: emergency)
   end
 
   # Returns the next avalible Responder for emergency_type that has the closest capacity to the required capacity

@@ -8,7 +8,7 @@ class Emergency < ActiveRecord::Base
 
   before_save :assign_slug
   after_create { ResponderDispatcher.new(self) }
-  before_update :call_off_responders, if: :resolved?
+  after_update :call_off_responders, if: :resolved?
 
   has_many :responders
 
@@ -23,12 +23,12 @@ class Emergency < ActiveRecord::Base
   end
 
   def call_off_responders
-    responders = []
+    self.responders = []
     self.responders_called_off = true
     save!
   end
 
   def resolved?
-    !resolved_at.nil? && responders_called_off
+    !resolved_at.nil? && !responders_called_off
   end
 end
