@@ -20,12 +20,14 @@ class Emergency < ActiveRecord::Base
     self.slug = code.parameterize
   end
 
+  # Remove assosiation for all Responders assigned to this emergency
   def call_off_responders
     self.responders = []
     self.responders_called_off = true
     save!
   end
 
+  # The emergency is resolved if resolved_at isn't nil and responders weren't just called of
   def resolved?
     !resolved_at.nil? && !responders_called_off
   end

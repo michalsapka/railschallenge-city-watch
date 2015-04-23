@@ -20,12 +20,7 @@ class ResponderCapacityCounter
 
   private
 
-  # Returns an Hash of sums of capacity for responders
-  #
-  # total: sum of capacity from all responders
-  # avalible: sum of capacity of responders that are avalible (not assigned to any emergency)
-  # on_duty: sum of capacity of responders that are on duty
-  # avalible_and_on_duty: sum of capacity of respoders that are both avalible and on duty
+  # Returns an Hash of sums of capacity for responders in same format as returned from self#counter
   def get_parts_for_capacity(rsp)
     {
       total: count_isolated_responders(rsp) { true },
