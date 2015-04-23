@@ -4,7 +4,7 @@ class EmergenciesController < ApplicationController
   def index
     render(
       json: Emergency.all,
-      full_responses: [Emergency.count_resolved, Emergency.count],
+      full_responses: [Emergency.resolved.count, Emergency.count],
       meta_key: :full_responses
     )
   end

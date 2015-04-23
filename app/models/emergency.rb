@@ -10,11 +10,9 @@ class Emergency < ActiveRecord::Base
   after_create { ResponderDispatcher.new(self) }
   after_update :call_off_responders, if: :resolved?
 
-  has_many :responders
+  scope :resolved, -> { where(unresolved: 0) }
 
-  def self.count_resolved
-    where(unresolved: 0).count
-  end
+  has_many :responders
 
   private
 
