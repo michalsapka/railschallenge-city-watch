@@ -18,11 +18,11 @@ class RespondersController < ApplicationController
   end
 
   def create
-    @responder = Responder.new(create_responder_params)
-    if @responder.save
-      render json: @responder, status: :created
+    responder = Responder.new(create_responder_params)
+    if responder.save
+      render json: responder, status: :created
     else
-      render_unprocessable(@responder.errors)
+      render_unprocessable(responder.errors)
     end
   end
 

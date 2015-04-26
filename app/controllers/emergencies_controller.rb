@@ -18,11 +18,11 @@ class EmergenciesController < ApplicationController
   end
 
   def create
-    @emergency = Emergency.new(create_emergency_params)
-    if @emergency.save
-      render json: @emergency, status: :created
+    emergency = Emergency.new(create_emergency_params)
+    if emergency.save
+      render json: emergency, status: :created
     else
-      render_unprocessable(@emergency.errors)
+      render_unprocessable(emergency.errors)
     end
   end
 
