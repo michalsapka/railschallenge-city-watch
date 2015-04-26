@@ -30,7 +30,7 @@ class ResponderDispatcher
     dispatch_for emergency_type if @severity[emergency_type.to_sym] > 0
   end
 
-  # Returns a number of remaining severities after all avalible Responders were dispatched
+  # Returns a number of remaining severities
   def count_unresolved
     @severity[:police] + @severity[:medical] + @severity[:fire]
   end
