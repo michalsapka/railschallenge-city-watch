@@ -1,5 +1,5 @@
 class Emergency < ActiveRecord::Base
-  attr_accessor :responders_called_off
+  attr_accessor :do_not_call_off
 
   validates :code, presence: true, uniqueness: true
   validates :medical_severity, :fire_severity, :police_severity,
@@ -8,7 +8,7 @@ class Emergency < ActiveRecord::Base
   after_create { ResponderDispatcher.new(self) }
   after_update :call_off_responders, if: :resolved?
 
-  scope :resolved, -> { where(unresolved: 0) }
+  scope :resolved, -> { where(fire_severity: 0, medical_severity: 0, police_severity: 0) }
 
   has_many :responders
 
@@ -17,12 +17,12 @@ class Emergency < ActiveRecord::Base
   # Removes assosiation for all Responders assigned to this emergency
   def call_off_responders
     self.responders = []
-    self.responders_called_off = true
+    self.do_not_call_off = true
     save!
   end
 
   # The emergency is resolved if resolved_at isn't nil and responders weren't just called of
   def resolved?
-    !resolved_at.nil? && !responders_called_off
+    !resolved_at.nil? && !do_not_call_off
   end
 end

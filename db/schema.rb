@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150426183701) do
+ActiveRecord::Schema.define(version: 20150426205310) do
 
   create_table "emergencies", force: :cascade do |t|
     t.datetime "resolved_at"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 20150426183701) do
     t.integer  "medical_severity", null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "unresolved"
   end
 
   add_index "emergencies", ["code"], name: "index_emergencies_on_code"

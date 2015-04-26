@@ -6,6 +6,6 @@ class EmergencySerializer < ActiveModel::Serializer
   end
 
   def full_response
-    object.unresolved == 0
+    !object.resolved_at.nil?
   end
 end
