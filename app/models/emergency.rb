@@ -2,9 +2,8 @@ class Emergency < ActiveRecord::Base
   attr_accessor :responders_called_off
 
   validates :code, presence: true, uniqueness: true
-  validates :medical_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :fire_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :police_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :medical_severity, :fire_severity, :police_severity,
+            presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   after_create { ResponderDispatcher.new(self) }
   after_update :call_off_responders, if: :resolved?
