@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150426205310) do
     t.integer  "emergency_id"
   end
 
+  add_index "responders", ["capacity"], name: "index_responders_on_capacity"
   add_index "responders", ["emergency_id"], name: "index_responders_on_emergency_id"
   add_index "responders", ["name"], name: "index_responders_on_name"
   add_index "responders", ["on_duty"], name: "index_responders_on_on_duty"
