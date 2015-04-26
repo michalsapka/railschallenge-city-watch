@@ -13,5 +13,6 @@ class CreateResponders < ActiveRecord::Migration
     add_index(:responders, :name)
     add_index(:responders, :type)
     add_index(:responders, :on_duty)
+    add_index(:responders, :capacity)
   end
 end
