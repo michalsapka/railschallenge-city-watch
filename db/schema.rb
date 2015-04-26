@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20150426205310) do
   end
 
   add_index "emergencies", ["code"], name: "index_emergencies_on_code"
+  add_index "emergencies", ["fire_severity"], name: "index_emergencies_on_fire_severity"
+  add_index "emergencies", ["medical_severity"], name: "index_emergencies_on_medical_severity"
+  add_index "emergencies", ["police_severity"], name: "index_emergencies_on_police_severity"
 
   create_table "responders", force: :cascade do |t|
     t.string   "type",                         null: false

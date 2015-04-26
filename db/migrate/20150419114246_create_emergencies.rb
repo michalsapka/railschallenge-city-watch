@@ -11,5 +11,8 @@ class CreateEmergencies < ActiveRecord::Migration
     end
 
     add_index(:emergencies, :code)
+    add_index(:emergencies, :fire_severity)
+    add_index(:emergencies, :medical_severity)
+    add_index(:emergencies, :police_severity)
   end
 end
