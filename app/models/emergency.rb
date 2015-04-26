@@ -12,6 +12,7 @@ class Emergency < ActiveRecord::Base
 
   has_many :responders
 
+  # total current severity
   def severity
     fire_severity + medical_severity + police_severity
   end
