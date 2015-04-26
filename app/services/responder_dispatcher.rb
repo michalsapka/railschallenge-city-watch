@@ -10,11 +10,9 @@ class ResponderDispatcher
 
     dispatch_responders
 
-    emergency.update(resolved_at: resolved_date,
-                     fire_severity: @severity[:fire],
+    emergency.update(fire_severity: @severity[:fire],
                      medical_severity: @severity[:medical],
-                     police_severity: @severity[:police],
-                     do_not_call_off: true)
+                     police_severity: @severity[:police])
   end
 
   private
@@ -42,10 +40,5 @@ class ResponderDispatcher
   # Returns a number of remaining severities
   def count_unresolved
     @severity[:police] + @severity[:medical] + @severity[:fire]
-  end
-
-  # Returns current date if all severities are 0, or nil if not
-  def resolved_date
-    Time.zone.now  if count_unresolved == 0
   end
 end

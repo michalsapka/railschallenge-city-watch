@@ -12,6 +12,10 @@ class Emergency < ActiveRecord::Base
 
   has_many :responders
 
+  def severity
+    fire_severity + medical_severity + police_severity
+  end
+
   private
 
   # Removes assosiation for all Responders assigned to this emergency
