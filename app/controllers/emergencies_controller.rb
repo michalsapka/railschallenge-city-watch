@@ -13,16 +13,16 @@ class EmergenciesController < ApplicationController
     if @emergency
       render json: @emergency
     else
-      render json: { message: 'page not found' }, status: 404
+      render_not_found
     end
   end
 
   def create
     @emergency = Emergency.new(create_emergency_params)
     if @emergency.save
-      render json: @emergency, status: 201
+      render json: @emergency, status: :created
     else
-      render json: { message: @emergency.errors }, status: 422
+      render_unprocessable(@emergency.errors)
     end
   end
 
@@ -30,7 +30,7 @@ class EmergenciesController < ApplicationController
     if @emergency.update(update_emergency_params)
       render json:  @emergency
     else
-      render json: { message: @emergency.errors }, status: 422
+      render_unprocessable(@emergency.errors)
     end
   end
 

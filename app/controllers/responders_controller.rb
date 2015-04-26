@@ -13,16 +13,16 @@ class RespondersController < ApplicationController
     if @responder
       render json: @responder
     else
-      render json: { message: 'page not found' }, status: 404
+      render_not_found
     end
   end
 
   def create
     @responder = Responder.new(create_responder_params)
     if @responder.save
-      render json: @responder, status: 201
+      render json: @responder, status: :created
     else
-      render json: { message: @responder.errors }, status: 422
+      render_unprocessable(@responder.errors)
     end
   end
 

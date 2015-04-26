@@ -5,10 +5,14 @@ class ApplicationController < ActionController::Base
   rescue_from(ActionController::UnpermittedParameters) do |err|
     render json: {
       message: "found unpermitted #{'parameter'.pluralize(err.params.count)}: #{ err.params.to_sentence }"
-    }, status: 422
+    }, status: :unprocessable_entity
   end
 
-  def action_not_found
-    render json: { message: 'page not found' }, status: 404
+  def render_not_found
+    render json: { message: 'page not found' }, status: :not_found
+  end
+
+  def render_unprocessable(errors)
+    render json: { message: errors }, status: :unprocessable_entity
   end
 end
