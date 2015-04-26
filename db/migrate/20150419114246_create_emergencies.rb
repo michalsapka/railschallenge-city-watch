@@ -9,5 +9,7 @@ class CreateEmergencies < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_index(:emergencies, :code)
   end
 end

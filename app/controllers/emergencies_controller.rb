@@ -45,6 +45,6 @@ class EmergenciesController < ApplicationController
   end
 
   def find_emergency
-    @emergency = Emergency.find_by_slug(params[:id].parameterize)
+    @emergency = Emergency.find_by_code(params[:id])
   end
 end

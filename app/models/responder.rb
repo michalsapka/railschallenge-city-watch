@@ -5,8 +5,6 @@ class Responder < ActiveRecord::Base
   validates :type, presence: true
   validates :name, presence: true, uniqueness: true
 
-  before_create :assign_slug
-
   belongs_to :emergency
 
   # Sends Reponder to an emergency
@@ -29,11 +27,5 @@ class Responder < ActiveRecord::Base
   def self.capacity
     counter = ResponderCapacityCounter.new(all)
     counter.counter
-  end
-
-  private
-
-  def assign_slug
-    self.slug = name.parameterize
   end
 end

@@ -41,6 +41,6 @@ class RespondersController < ApplicationController
   end
 
   def find_responder
-    @responder = Responder.find_by_slug(params[:id].parameterize)
+    @responder = Responder.find_by_name(params[:id])
   end
 end

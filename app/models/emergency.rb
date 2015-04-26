@@ -6,7 +6,6 @@ class Emergency < ActiveRecord::Base
   validates :fire_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :police_severity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  before_save :assign_slug
   after_create { ResponderDispatcher.new(self) }
   after_update :call_off_responders, if: :resolved?
 
@@ -15,10 +14,6 @@ class Emergency < ActiveRecord::Base
   has_many :responders
 
   private
-
-  def assign_slug
-    self.slug = code.parameterize
-  end
 
   # Remove assosiation for all Responders assigned to this emergency
   def call_off_responders
