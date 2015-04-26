@@ -15,7 +15,7 @@ class Emergency < ActiveRecord::Base
 
   private
 
-  # Remove assosiation for all Responders assigned to this emergency
+  # Removes assosiation for all Responders assigned to this emergency
   def call_off_responders
     self.responders = []
     self.responders_called_off = true
